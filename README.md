@@ -6,7 +6,11 @@ Go Package to extract text from word docx files
 ### usage
 
 ```
-import "github.com/frederikhs/goword"
+import (
+    "fmt"
+    "github.com/frederikhs/goword"
+    "log"
+)
 
 func main() {
     text, err := goword.ParseText("1.docx")
