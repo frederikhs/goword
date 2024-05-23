@@ -18,3 +18,11 @@ cover:
 
 clean:
 	git clean -fxd -e .idea
+
+act: act-lint-122 act-test-122
+
+act-lint-122:
+	act push --workflows ./.github/workflows/lint.yml
+
+act-test-122:
+	act push --workflows ./.github/workflows/test.yml --matrix go-version:1.22.x
