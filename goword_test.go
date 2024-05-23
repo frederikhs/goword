@@ -27,7 +27,6 @@ func TestOpenWordFileValidFile(t *testing.T) {
 	if !strings.Contains(doc, "This is a word file") {
 		t.Errorf("Error reading document.xml %s ", doc)
 	}
-	fmt.Printf("%s", err)
 }
 
 func TestParseText(t *testing.T) {
