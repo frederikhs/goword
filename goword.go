@@ -4,9 +4,8 @@ package goword
 import (
 	"archive/zip"
 	"encoding/xml"
-	"errors"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"strings"
 )
 
@@ -14,12 +13,12 @@ func ParseText(filename string) (string, error) {
 
 	doc, err := openWordFile(filename)
 	if err != nil {
-		return "", errors.New(fmt.Sprintf("Error opening file %s - %s", filename, err))
+		return "", fmt.Errorf("error opening file %s - %s", filename, err)
 	}
 
 	docx, err := Parse(doc)
 	if err != nil {
-		return "", errors.New(fmt.Sprintf("Error parsing %s - %s", filename, err))
+		return "", fmt.Errorf("error parsing %s - %s", filename, err)
 	}
 
 	return docx.AsText(), nil
@@ -40,7 +39,7 @@ func ParseText(filename string) (string, error) {
 func Parse(doc string) (WordDocument, error) {
 
 	docx := WordDocument{}
-	r := strings.NewReader(string(doc))
+	r := strings.NewReader(doc)
 	decoder := xml.NewDecoder(r)
 
 	for {
@@ -52,7 +51,10 @@ func Parse(doc string) (WordDocument, error) {
 		case xml.StartElement:
 			if se.Name.Local == "p" {
 				var p Paragraph
-				decoder.DecodeElement(&p, &se)
+				err := decoder.DecodeElement(&p, &se)
+				if err != nil {
+					return docx, err
+				}
 				docx.Paragraphs = append(docx.Paragraphs, p)
 			}
 		}
@@ -79,11 +81,11 @@ func openWordFile(filename string) (string, error) {
 			return "", err
 		}
 		if f.Name == "word/document.xml" {
-			doc, err := ioutil.ReadAll(rc)
+			doc, err := io.ReadAll(rc)
 			if err != nil {
 				return "", err
 			}
-			return fmt.Sprintf("%s", doc), nil
+			return string(doc), nil
 		}
 		rc.Close()
 	}
