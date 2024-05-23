@@ -1,5 +1,5 @@
 # goword   
-![image](https://api.travis-ci.org/guylaor/goword.svg?branch=master)
+[![test](https://github.com/frederikhs/goword/actions/workflows/test.yml/badge.svg)](https://github.com/frederikhs/goword/actions/workflows/test.yml)
 
 Go Package to extract text from word docx files
 
