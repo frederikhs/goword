@@ -10,7 +10,9 @@ Go Package to extract text from word docx files
 
 ### usage
 
-```
+```go
+package main
+
 import (
     "fmt"
     "github.com/frederikhs/goword"
