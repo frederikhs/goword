@@ -12,11 +12,11 @@ type Paragraph struct {
 type Style struct {
 	Val string `xml:"val,attr"`
 }
+
 type Row struct {
 	Text string `xml:"t"`
 }
 
-// methods
 func (w WordDocument) AsText() string {
 	text := ""
 	for _, v := range w.Paragraphs {
@@ -25,5 +25,6 @@ func (w WordDocument) AsText() string {
 		}
 		text += "\n"
 	}
+
 	return text
 }

@@ -1,4 +1,3 @@
-// package goword parses docx files to get its containing text
 package goword
 
 import (
@@ -10,7 +9,6 @@ import (
 )
 
 func ParseText(filename string) (string, error) {
-
 	doc, err := openWordFile(filename)
 	if err != nil {
 		return "", fmt.Errorf("error opening file %s - %s", filename, err)
@@ -22,22 +20,9 @@ func ParseText(filename string) (string, error) {
 	}
 
 	return docx.AsText(), nil
-
 }
 
-// func Parse(doc string) (WordDocument, error) {
-
-// 	docx := WordDocument{}
-// 	err := xml.Unmarshal([]byte(doc), &docx)
-// 	if err != nil {
-// 		return docx, err
-// 	}
-// 	fmt.Printf("\n %-v \n", docx)
-// 	return docx, nil
-// }
-
 func Parse(doc string) (WordDocument, error) {
-
 	docx := WordDocument{}
 	r := strings.NewReader(doc)
 	decoder := xml.NewDecoder(r)
@@ -59,11 +44,11 @@ func Parse(doc string) (WordDocument, error) {
 			}
 		}
 	}
+
 	return docx, nil
 }
 
 func openWordFile(filename string) (string, error) {
-
 	// Open a zip archive for reading. word files are zip archives
 	r, err := zip.OpenReader(filename)
 	if err != nil {
@@ -74,8 +59,6 @@ func openWordFile(filename string) (string, error) {
 	// Iterate through the files in the archive,
 	// find document.xml
 	for _, f := range r.File {
-
-		//fmt.Printf("Contents of %s:\n", f.Name)
 		rc, err := f.Open()
 		if err != nil {
 			return "", err
@@ -85,6 +68,7 @@ func openWordFile(filename string) (string, error) {
 			if err != nil {
 				return "", err
 			}
+
 			return string(doc), nil
 		}
 		rc.Close()
