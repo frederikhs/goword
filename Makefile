@@ -1,4 +1,4 @@
-all: download vet lint test
+all: download vet fmt lint test
 
 download:
 	go mod download
@@ -8,6 +8,9 @@ vet:
 
 lint:
 	golangci-lint run
+
+fmt:
+	go fmt
 
 test:
 	go test ./... -v
